@@ -15,7 +15,7 @@
     <module>eureka-server</module>
     <module>springybot-core</module>
     <module>springybot-service</module>
-    <module>coolbao</module>
+    <module>tuoyijiqirenebot</module>
   </modules>
 
   <parent>

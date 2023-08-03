@@ -1,24 +1,23 @@
 package org.springybot.model;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springybot.botModel.BaseWebhookBot;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 public class Tuoyijiqirenebot extends BaseWebhookBot {
 
-    public CoolbaoLongPollingBot(DefaultBotOptions options, String botUsername, String botToken) {
-        super(options, botUsername, botToken);
+    @Value("${telegram.botUsername}")
+    private String botUsername;
+
+    public Tuoyijiqirenebot(DefaultBotOptions options, String botToken) {
+        super(options, botToken);
     }
 
     @Override
     protected void handlePrivateMessage() {
         SendMessage sendMessage = new SendMessage(chatId_str, text);
-        try {
-            this.executeAsync(sendMessage);
-        } catch (TelegramApiException e) {
-            e.printStackTrace();
-        }
+        this.executeAsync(sendMessage);
     }
 
     @Override
@@ -42,11 +41,13 @@ public class Tuoyijiqirenebot extends BaseWebhookBot {
     }
 
     @Override
-    public String getBotUsername() {
-        return this.botUsername;
+    public String getBotPath() {
+        return botUsername;
     }
+
     @Override
-    public String getBotPath(){
-        return "tuoyijiqirenebot";
+    public String getBotUsername() {
+        return botUsername;
     }
+
 }

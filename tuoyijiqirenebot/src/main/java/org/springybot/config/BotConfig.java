@@ -1,14 +1,16 @@
 package org.springybot.config;
 
-import java.util.Arrays;
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springybot.model.CoolbaoLongPollingBot;
-import org.springybot.service.SpringyBotServiceFeignClient;
+import org.springybot.botModel.Config;
+import org.springybot.model.Tuoyijiqirenebot;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
+import org.telegram.telegrambots.meta.api.methods.updates.SetWebhook;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 
@@ -16,34 +18,36 @@ import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 public class BotConfig {
 
     @Value("${telegram.botToken}")
+    @NotNull
+    @NotEmpty
     private String botToken;
 
-    @Value("${telegram.botUsername}")
-    private String botUsername;
+    @Value("${telegram.webhookUrl}")
+    @NotNull
+    @NotEmpty
+    private String webhook_url;
 
-    @Autowired
-    private SpringyBotServiceFeignClient serviceFeignClient;
+    // @Autowired
+    // private SpringyBotServiceFeignClient serviceFeignClient;
+    @Bean
+    SetWebhook setWebhookInstance() {
+        return SetWebhook.builder().url(webhook_url).build();
+    }
 
     @Bean
-    CoolbaoLongPollingBot coolbaoLongPollingBot() {
+    Tuoyijiqirenebot tuoyijiqirenebot() {
         DefaultBotOptions options = new DefaultBotOptions();
-        options.setAllowedUpdates(Arrays.asList("update_id", "message", "edited_message",
-                "channel_post", "edited_channel_post", "inline_query", "chosen_inline_result",
-                "callback_query", "shipping_query", "pre_checkout_query", "poll", "poll_answer",
-                "my_chat_member", "chat_member"));
-
-        CoolbaoLongPollingBot bot = new CoolbaoLongPollingBot(options, botUsername, botToken);
-        serviceFeignClient.cacheSpringyBotDataToRedis(botToken);
-
-
+        options.setAllowedUpdates(Config.allowedUpdates);
+        Tuoyijiqirenebot bot = new Tuoyijiqirenebot(options, botToken);
+        // serviceFeignClient.cacheSpringyBotDataToRedis(botToken);
         return bot;
     }
 
     @Bean
-    TelegramBotsApi telegramBotsApi() throws TelegramApiException {
+    void telegramBotsApi() throws TelegramApiException {
         TelegramBotsApi telegramBotsApi = new TelegramBotsApi(DefaultBotSession.class);
-        telegramBotsApi.registerBot(coolbaoLongPollingBot());
-        return telegramBotsApi;
+        telegramBotsApi.registerBot(tuoyijiqirenebot(), setWebhookInstance());
+        tuoyijiqirenebot().execute(setWebhookInstance());
     }
 
 }

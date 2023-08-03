@@ -3,6 +3,7 @@ package org.springybot.botModel;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.bots.TelegramWebhookBot;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.User;
@@ -16,7 +17,6 @@ public abstract class BaseWebhookBot extends TelegramWebhookBot {
     protected Message message;
     protected String type;
     protected ChatMember chatMember;
-    protected String botUsername;
     protected Long chatId;
     protected String chatId_str;
     protected String text;
@@ -29,7 +29,6 @@ public abstract class BaseWebhookBot extends TelegramWebhookBot {
     public BotApiMethod<?> onWebhookUpdateReceived(Update update) {
 
         this.update = update;
-        System.out.println(update);
         if (update.hasMessage()) {
 
             this.message = update.getMessage();
@@ -43,7 +42,7 @@ public abstract class BaseWebhookBot extends TelegramWebhookBot {
                     User user = message.getFrom();
                     String userInfo = String.format("[%s] @%s (%s %s)", user.getId(), user.getUserName(),
                             user.getFirstName(), user.getLastName());
-                    log.info("[{}] Private message received from {}: {}", this.botUsername, userInfo,
+                    log.info("[{}] Private message received from {}: {}", getBotUsername(), userInfo,
                             this.message.getText());
                 }
                 if (message.isSuperGroupMessage() || message.isGroupMessage()) {
@@ -103,4 +102,8 @@ public abstract class BaseWebhookBot extends TelegramWebhookBot {
 
     protected abstract void handleChatMemberUpdate();
 
+    protected void executeAsync(SendMessage sendMessage){
+        this.executeAsync(sendMessage);
+    }
+    
 }

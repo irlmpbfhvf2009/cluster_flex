@@ -15,5 +15,4 @@ eureka:
 telegram:
   botToken: 6481368301:AAEMKict3AiQd4ECUB__0J_LKqT2MACDGyE
   botUsername: tuoyijiqirenebot
-
-
+  webhookUrl: https://7bf0-114-24-108-127.ngrok-free.app/tuoyijiqirenebot

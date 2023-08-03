@@ -165,7 +165,6 @@ public class AdminServiceImpl implements AdminService, UserDetailsService {
         }
 
         Admin admin = new Admin();
-        // List<String> roles = Arrays.asList(new String[] { "ADMIN" });
         admin.setUsername(adminDTOUsername);
         admin.setPassword(adminDTO.getPassword());
         admin.setEnabled(adminDTO.getEnabled());

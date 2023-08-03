@@ -2,18 +2,17 @@ server:
   port: 5489
 spring:
   application:
-    name: coolbao
+    name: tuoyijiqirenebot
   autoconfigure:
     exclude: org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
 eureka:
   instance:
-    prefer-ip-address: true  #注册服务的时候使用服务的ip地址进行注册
+    prefer-ip-address: true  #註冊服務使用ip註冊
   client:
     service-url:
       defaultZone: http://localhost:8761/eureka/
 
 telegram:
-  botToken: 5855785269:AAH9bvPpYudd2wSAvMnBTiKakCeoB92_Z_8
-  botUsername: CCP1121_BOT
-
-
+  botToken: 6481368301:AAEMKict3AiQd4ECUB__0J_LKqT2MACDGyE
+  botUsername: tuoyijiqirenebot
+  webhookUrl: https://7bf0-114-24-108-127.ngrok-free.app/tuoyijiqirenebot
