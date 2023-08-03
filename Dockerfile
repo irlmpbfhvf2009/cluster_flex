@@ -2,8 +2,8 @@ FROM openjdk:11
 
 WORKDIR /app
 
-COPY ./target/springybot.jar /app/springybot.jar
+COPY /eureka-server/target/eureka-server-1.0.1.jar /app/eureka-server.jar
 
-EXPOSE 5487
+EXPOSE 8761
 
-CMD ["java", "-jar", "/app/springybot.jar"]
+CMD ["java", "-jar", "/app/eureka-server.jar"]

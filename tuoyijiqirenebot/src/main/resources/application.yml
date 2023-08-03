@@ -1,0 +1,19 @@
+server:
+  port: 5489
+spring:
+  application:
+    name: tuoyijiqirenebot
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+eureka:
+  instance:
+    prefer-ip-address: true  #註冊服務使用ip註冊
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+
+telegram:
+  botToken: 6481368301:AAEMKict3AiQd4ECUB__0J_LKqT2MACDGyE
+  botUsername: tuoyijiqirenebot
+
+
