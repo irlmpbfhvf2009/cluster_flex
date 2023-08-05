@@ -7,6 +7,8 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.User;
 import org.telegram.telegrambots.meta.api.objects.chatmember.ChatMember;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -37,7 +39,11 @@ public abstract class BaseWebhookBot extends TelegramWebhookBot {
 
             if (message.hasText()) {
                 if (message.isUserMessage()) {
-                    handlePrivateMessage();
+                    try {
+                        handlePrivateMessage();
+                    } catch (TelegramApiException e) {
+                        e.printStackTrace();
+                    }
                     User user = message.getFrom();
                     String userInfo = String.format("[%s] @%s (%s %s)", user.getId(), user.getUserName(),
                             user.getFirstName(), user.getLastName());
@@ -58,7 +64,11 @@ public abstract class BaseWebhookBot extends TelegramWebhookBot {
             User user = update.getCallbackQuery().getFrom();
             String userInfo = String.format("[%s] %s (%s %s)", user.getId(), user.getUserName(), user.getFirstName(),
                     user.getLastName());
-            handleCallbackQuery();
+            try {
+                handleCallbackQuery();
+            } catch (TelegramApiException e) {
+                e.printStackTrace();
+            }
             log.info("CallbackQuery Data received from {}: {}", userInfo, update.getCallbackQuery().getData());
         }
 
@@ -89,13 +99,13 @@ public abstract class BaseWebhookBot extends TelegramWebhookBot {
         return null;
     }
 
-    protected abstract void handlePrivateMessage();
+    protected abstract void handlePrivateMessage() throws TelegramApiException;
 
     protected abstract void handleGroupMessage();
 
     protected abstract void handlePhotoMessage();
 
-    protected abstract void handleCallbackQuery();
+    protected abstract void handleCallbackQuery() throws TelegramApiException;
 
     protected abstract void handleChannelPost();
 
