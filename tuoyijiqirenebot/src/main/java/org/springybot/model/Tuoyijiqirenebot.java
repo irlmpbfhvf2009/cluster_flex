@@ -124,22 +124,22 @@ public class Tuoyijiqirenebot extends BaseWebhookBot {
                 price = "`3.001`";
                 break;
             case "price6":
-                price = "6.001";
+                price = "`6.001`";
                 break;
             case "price12":
-                price = "12.001";
+                price = "`12.001";
                 break;
             case "price18":
-                price = "18.001";
+                price = "`18.001";
                 break;
             case "price30":
-                price = "30.001";
+                price = "`30.001";
                 break;
             case "price50":
-                price = "50.001";
+                price = "`50.001`";
                 break;
             case "price100":
-                price = "100.001";
+                price = "`100.001`";
                 break;
             case "payStatus":
                 sendMessage.setText("暂时没有检测到支付信息");
